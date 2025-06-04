@@ -9,6 +9,7 @@ Esta guía explica paso a paso cómo desplegar una página web en una Raspberry 
 Antes de comenzar, asegúrate de:
 
 - Haber configurado duckDNS ([Consulta el tutorial](DuckDNS.md))
+- Haber configurado previamente port forwarding ([Consulta el tutorial](PortForwarding.md))
 
 ---
 
