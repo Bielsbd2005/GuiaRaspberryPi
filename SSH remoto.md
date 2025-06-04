@@ -1,6 +1,6 @@
 # Configurar SSH remoto en puerto 2222 en Raspberry Pi
 
-Esta guía explica cómo cambiar el puerto por defecto de SSH al **2222** en tu Raspberry Pi para mejorar la seguridad, cómo configurar el reenvío de puertos (port forwarding) en tu router, y cómo conectarte de forma remota usando el dominio `raspberrybiel.duckdns.org`.
+Esta guía explica cómo cambiar el puerto por defecto de SSH al **2222** en tu Raspberry Pi para mejorar la seguridad, y cómo conectarte de forma remota usando el dominio `raspberrybiel.duckdns.org`.
 
 ---
 
@@ -10,7 +10,6 @@ Esta guía explica cómo cambiar el puerto por defecto de SSH al **2222** en tu 
 2. [Cambiar el puerto SSH](#cambiar-el-puerto-ssh)  
 3. [Configurar el firewall (UFW)](#configurar-el-firewall-ufw)  
 4. [Reiniciar el servicio SSH](#reiniciar-el-servicio-ssh)  
-5. [Configurar port forwarding en el router](#configurar-port-forwarding-en-el-router)  
 6. [Conexión remota vía DuckDNS](#conexión-remota-vía-duckdns)  
 7. [Opciones de seguridad adicionales](#opciones-de-seguridad-adicionales)  
 8. [Referencias](#referencias)
@@ -19,11 +18,8 @@ Esta guía explica cómo cambiar el puerto por defecto de SSH al **2222** en tu 
 
 ## Requisitos previos
 
-- Tener **Raspberry Pi OS** (o similar) instalado y actualizado.  
-- Tener acceso físico o por consola local (por ejemplo, HDMI + teclado) para editar archivos de configuración y reiniciar servicios.  
 - Haber configurado previamente el dominio DuckDNS (`raspberrybiel.duckdns.org`) y comprobado que responde correctamente.  
-- Confirmar que SSH está habilitado en la Raspberry Pi (activado en la imagen de la tarjeta SD).  
-- Contar con permisos de superusuario (sudo) para editar archivos y reiniciar servicios.
+- Haber configurado previamente port forwarding ([Consulta el tutorial](PortForwarding.md))
 
 ---
 
@@ -119,36 +115,6 @@ Deberías ver una línea como:
 ```
 tcp   LISTEN  0       128    0.0.0.0:2222    0.0.0.0:*    users:(("sshd",pid=XXX,fd=3))
 ```
-
----
-
-## Configurar port forwarding en el router
-
-Para permitir conexiones SSH desde internet hacia tu Raspberry Pi, debes abrir en tu router el puerto externo 2222 y reenviarlo a la IP interna de la Raspberry Pi (en el mismo puerto 2222).
-
-1. **Accede a la interfaz web de tu router**  
-   - Normalmente se entra mediante un navegador a `192.168.1.1` o `192.168.0.1` (consulta el manual de tu router).  
-   - Identifícate con el usuario y contraseña de administrador.
-
-2. **Localiza la sección de Port Forwarding (Reenvío de puertos)**  
-   - Puede llamarse “Port Forwarding”, “Virtual Server” o “NAT”.
-
-3. **Añade una nueva regla**  
-   - **Nombre/Descripción**: SSH Raspberry (o similar).  
-   - **Protocolo**: TCP.  
-   - **Puerto externo (External Port)**: 2222.  
-   - **Dirección IP interna (Internal IP)**: IP local de tu Raspberry Pi (p.ej., `192.168.1.50`).  
-   - **Puerto interno (Internal Port)**: 2222.  
-   - Guarda la regla.
-
-4. **Verifica que la regla está activa**  
-   - Asegúrate de aplicar/guardar la configuración.  
-   - Algunos routers requieren reiniciar para activar el port forwarding.
-
-> **Explicación de puertos**:  
-> - **Puerto externo 2222 (WAN)**: Es el puerto al que se conectarán los clientes desde internet.  
-> - **Puerto interno 2222 (LAN)**: Es el puerto en el que tu Raspberry Pi escucha SSH.  
-> - Al conectar a `raspberrybiel.duckdns.org:2222`, el router redirige esa petición a la IP local de la Raspberry Pi en el mismo puerto.
 
 ---
 
